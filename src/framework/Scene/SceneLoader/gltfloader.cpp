@@ -53,7 +53,7 @@ inline std::vector<uint8_t> convertIndexData(const std::vector<uint8_t>& src_dat
                 return src_data;
         }
     Default:
-        LOGE("Unsupported index format {} ", format)
+        LOGE("Unsupported index format {} ", uint64_t(format))
     } else {
         //type            = targetType;
         float srcStride = formatStrideMap.at(format);
