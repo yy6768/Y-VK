@@ -194,6 +194,9 @@ void JsonLoader::loadMaterials() {
         if (materialJson.contains("albedo") && materialJson["albedo"].is_string()) {
             texture_paths.insert(materialJson["albedo"].get<std::string>());
         }
+        if (materialJson.contains("normal") && materialJson["normal"].is_string()) {
+            texture_paths.insert(materialJson["normal"].get<std::string>());
+        }
     }
     //  std::vector<std::unique_ptr<Texture>> textures;
     std::unordered_map<std::string_view, int> texture_index;
@@ -232,6 +235,12 @@ void JsonLoader::loadMaterials() {
         GltfMaterial material        = InitGltfMaterial();
         material.pbrBaseColorFactor  = glm::vec4(rtMaterial.albedo, 1);
         material.pbrBaseColorTexture = rtMaterial.texture_id;
+        if (materialJson.contains("normal") && materialJson["normal"].is_string()) {
+            auto textureName = materialJson["normal"].get<std::string>();
+            material.normalTexture = texture_index.contains(textureName) ? texture_index[textureName] : -1;
+        } else {
+            material.normalTexture = -1;
+        }
         materials.push_back(material);
     }
     //textures.clear();
